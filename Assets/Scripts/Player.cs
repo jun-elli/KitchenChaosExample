@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float speedMultiplier = 7f;
-    private float rotationSpeed = 10f;
+    [SerializeField] private float _speedMultiplier = 7f;
+    private float _rotationSpeed = 10f;
+    public bool IsWalking { get; private set; }
 
 
     private void Update()
@@ -16,32 +17,44 @@ public class Player : MonoBehaviour
 
     private void ControllMovement()
     {
-        Vector2 input = new(0, 0);
+        Vector2 inputVector = new(0, 0);
 
         if (Input.GetKey(KeyCode.W))
         {
-            input.y += 1f;
+            inputVector.y += 1f;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            input.y -= 1f;
+            inputVector.y -= 1f;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            input.x += 1f;
+            inputVector.x += 1f;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            input.x -= 1f;
+            inputVector.x -= 1f;
+        }
+        // Player is Idle
+        IsWalking = false;
+
+        // If there's movement:
+        if (inputVector != Vector2.zero)
+        {
+            // Player is walking
+            IsWalking = true;
+
+            inputVector = inputVector.normalized;
+
+            // Add vector to actual position with speed
+            Vector3 moveDirection = new(inputVector.x, 0f, inputVector.y);
+            transform.position += moveDirection * _speedMultiplier * Time.deltaTime;
+
+            // Add rotation to make z point to our moving direction
+            transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * _rotationSpeed);
         }
 
-        input = input.normalized;
-        // Add vector to actual position with speed
-        Vector3 moveDirection = new(input.x, 0f, input.y);
-        transform.position += moveDirection * speedMultiplier * Time.deltaTime;
-
-        // Add rotation to make z point to our moving direction
-        transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotationSpeed);
-
     }
+
+
 }
