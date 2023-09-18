@@ -17,24 +17,9 @@ public class Player : MonoBehaviour
 
     private void ControllMovement()
     {
-        Vector2 inputVector = new(0, 0);
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            inputVector.y += 1f;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            inputVector.y -= 1f;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            inputVector.x += 1f;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            inputVector.x -= 1f;
-        }
+        Vector2 inputVector = GameInput.Instance.GetMovementVectorNormalized();
+
         // Player is Idle
         IsWalking = false;
 
@@ -44,7 +29,6 @@ public class Player : MonoBehaviour
             // Player is walking
             IsWalking = true;
 
-            inputVector = inputVector.normalized;
 
             // Add vector to actual position with speed
             Vector3 moveDirection = new(inputVector.x, 0f, inputVector.y);
