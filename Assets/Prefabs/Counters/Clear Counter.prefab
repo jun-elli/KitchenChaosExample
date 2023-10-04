@@ -69,9 +69,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90938c5cfcc010776b73799957f4cffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tomatoPrefab: {fileID: 3418439521915403604, guid: 2318729085ccd8e80a5be7dc3816cbf5,
-    type: 3}
-  centerPoint: {fileID: 5236170152226054689}
+  objectSO: {fileID: 0}
+  holdingObjectPoint: {fileID: 5236170152226054689}
 --- !u!1 &9019184707606978853
 GameObject:
   m_ObjectHideFlags: 0
