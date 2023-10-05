@@ -27,7 +27,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private KitchenObject kitchenObject;
 
     // Constants
-    private const float ROTATION_SPEED = 15f;
+    private const float ROTATION_SPEED = 18f;
     private const float PLAYER_HEIGHT = 2f;
     private const float PLAYER_RADIUS = 0.7f;
     private const float INTERACT_DISTANCE = 2f;
@@ -48,6 +48,16 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     {
         // Add method to handle interaction with a counter to delegate Interact (E)
         GameInput.Instance.OnInteractAction += GameInput_OnInteraction;
+        // Add method to handle interaction with a counter to delegate Interact (F)
+        GameInput.Instance.OnInteractAlternateAction += GameInput_OnAlternateInteraction;
+    }
+
+    private void GameInput_OnAlternateInteraction(object sender, EventArgs e)
+    {
+        if (_selectedCounter != null)
+        {
+            _selectedCounter.InteractAlternate(this);
+        }
     }
 
     // Method that holds actions to happen when Interact (E) is pressed
@@ -74,7 +84,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         Vector2 inputVector = GameInput.Instance.GetMovementVectorNormalized();
         Vector3 moveDirection = new(inputVector.x, 0f, inputVector.y);
 
-        // Check if we can move in that direction
+        // Get player size
         Vector3 bottomPoint = transform.position;
         Vector3 topPoint = transform.position + Vector3.up * PLAYER_HEIGHT;
         // Max distance it wants to move
@@ -87,7 +97,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         {
             // Check if we can move on the x
             Vector3 moveDirectionX = new Vector3(moveDirection.x, 0, 0).normalized;
-            bool canMoveX = !Physics.CapsuleCast(bottomPoint, topPoint, PLAYER_RADIUS, moveDirectionX, moveDistance);
+            bool canMoveX = moveDirection.x != 0 && !Physics.CapsuleCast(bottomPoint, topPoint, PLAYER_RADIUS, moveDirectionX, moveDistance);
 
             if (canMoveX)
             {
@@ -98,7 +108,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             {
                 // Check if we can move on the z
                 Vector3 moveDirectionZ = new Vector3(0, 0, moveDirection.z).normalized;
-                bool canMoveZ = !Physics.CapsuleCast(bottomPoint, topPoint, PLAYER_RADIUS, moveDirectionZ, moveDistance);
+                bool canMoveZ = moveDirection.z != 0 && !Physics.CapsuleCast(bottomPoint, topPoint, PLAYER_RADIUS, moveDirectionZ, moveDistance);
 
                 if (canMoveZ)
                 {
@@ -108,14 +118,17 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             }
         }
 
-        // If there's movement:
-        if (wantsToMove && canMove)
+        // If player wants to move
+        if (wantsToMove)
         {
-            // Player is walking
+            // Player is walking (even stationary)
             IsWalking = true;
 
-            // Add vector to actual position with speed
-            transform.position += moveDirection * moveDistance;
+            if (canMove)
+            {
+                // Add vector to actual position with speed
+                transform.position += moveDirection * moveDistance;
+            }
 
             // Add rotation to make z point to our moving direction
             transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * ROTATION_SPEED);

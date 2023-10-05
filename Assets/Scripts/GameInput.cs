@@ -9,6 +9,7 @@ public class GameInput : MonoBehaviour
     public static GameInput Instance { get; private set; }
 
     public event EventHandler OnInteractAction;
+    public event EventHandler OnInteractAlternateAction;
 
     private PlayerInputActions playerInputActions;
 
@@ -30,7 +31,13 @@ public class GameInput : MonoBehaviour
         playerInputActions.Player.Enable();
         // Add method to be called when E is pressed
         playerInputActions.Player.Interact.performed += Interact_Performed;
+        playerInputActions.Player.InteractAlternate.performed += InteractAlternate_Performed;
 
+    }
+
+    private void InteractAlternate_Performed(InputAction.CallbackContext context)
+    {
+        OnInteractAlternateAction?.Invoke(this, EventArgs.Empty);
     }
 
     private void Interact_Performed(InputAction.CallbackContext obj)

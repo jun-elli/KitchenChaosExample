@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,11 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
     public virtual void Interact(Player player)
     {
         Debug.LogError("Interact from Base Class shouldn't run");
+    }
+
+    public virtual void InteractAlternate(Player player)
+    {
+        Debug.LogError("Interact Alternate from Base Class shouldn't run");
     }
 
     // Interface
@@ -38,4 +44,6 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
     {
         return kitchenObject != null;
     }
+
+
 }
