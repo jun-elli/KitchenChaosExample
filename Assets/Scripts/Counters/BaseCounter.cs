@@ -16,7 +16,7 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
 
     public virtual void InteractAlternate(Player player)
     {
-        Debug.LogError("Interact Alternate from Base Class shouldn't run");
+        // Debug.LogError("Interact Alternate from Base Class shouldn't run");
     }
 
     // Interface

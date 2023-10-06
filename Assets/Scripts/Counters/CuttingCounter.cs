@@ -3,15 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CuttingCounter : BaseCounter
+public class CuttingCounter : BaseCounter, IHasProgress
 {
     [SerializeField] private CuttingRecipeSO[] cuttingRecipes;
 
     private int cuttingProgress;
 
     // Events
-    public Action<float> OnProgressChanged;
     public Action OnCut;
+
+    public event Action<float> OnProgressChanged;
+
 
     // Methods
     public override void Interact(Player player)
