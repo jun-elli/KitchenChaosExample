@@ -5,28 +5,33 @@ using UnityEngine;
 
 public class PlateKitchenObject : KitchenObject
 {
-    [SerializeField] private List<KitchenObjectSO> validIngredientsList;
-    private List<KitchenObjectSO> ingredientsOnPlateList;
+    [SerializeField] private List<KitchenObjectSO> _validIngredientsList;
+    private List<KitchenObjectSO> _ingredientsOnPlateList;
 
     // Events
     public event Action<KitchenObjectSO> OnIngredientAdded;
 
     private void Awake()
     {
-        ingredientsOnPlateList = new List<KitchenObjectSO>();
+        _ingredientsOnPlateList = new List<KitchenObjectSO>();
     }
 
     public bool TryAddIngredient(KitchenObjectSO objectSO)
     {
-        if (validIngredientsList.Contains(objectSO))
+        if (_validIngredientsList.Contains(objectSO))
         {
-            if (!ingredientsOnPlateList.Contains(objectSO))
+            if (!_ingredientsOnPlateList.Contains(objectSO))
             {
-                ingredientsOnPlateList.Add(objectSO);
+                _ingredientsOnPlateList.Add(objectSO);
                 OnIngredientAdded?.Invoke(objectSO);
                 return true;
             }
         }
         return false;
+    }
+
+    public List<KitchenObjectSO> GetIngredientsOnPlate()
+    {
+        return _ingredientsOnPlateList;
     }
 }
