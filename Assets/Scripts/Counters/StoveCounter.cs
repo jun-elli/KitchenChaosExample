@@ -55,7 +55,21 @@ public class StoveCounter : BaseCounter, IHasProgress
         // If there's an object on counter
         else
         {
-            if (!player.HasKitchenObject())
+            if (player.HasKitchenObject())
+            {
+                // If player has Plate, put ingredient in player's plate
+                if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plate))
+                {
+                    if (plate.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                    {
+                        GetKitchenObject().DestroySelf();
+                        state = StoveState.Idle;
+                        OnStateChanged?.Invoke(state);
+                        OnProgressChanged?.Invoke(0);
+                    }
+                }
+            }
+            else // Player gets object
             {
                 GetKitchenObject().SetKitchenObjectParent(player);
                 state = StoveState.Idle;
