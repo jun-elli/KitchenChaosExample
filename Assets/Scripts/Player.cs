@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     {
         public BaseCounter selectedCounter;
     }
+    public event Action OnPickUpSomething;
 
 
     [SerializeField] private float _speedMultiplier = 7f;
@@ -191,6 +192,10 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     public void SetKitchenObject(KitchenObject obj)
     {
         kitchenObject = obj;
+        if (kitchenObject != null)
+        {
+            OnPickUpSomething?.Invoke();
+        }
     }
 
     public KitchenObject GetKitchenObject()

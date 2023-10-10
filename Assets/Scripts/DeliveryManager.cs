@@ -17,6 +17,7 @@ public class DeliveryManager : MonoBehaviour
     // Events
     public event Action OnRecipeSpawned;
     public event Action OnRecipeDelivered;
+    public event Action OnWrongRecipeDelivered;
 
     private void Awake()
     {
@@ -94,6 +95,8 @@ public class DeliveryManager : MonoBehaviour
 
             }
         }
+        // Tried to deliver a recipe not allowed or not in the waiting list
+        OnWrongRecipeDelivered?.Invoke();
         return false;
     }
 

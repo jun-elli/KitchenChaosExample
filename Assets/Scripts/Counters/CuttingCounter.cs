@@ -10,7 +10,8 @@ public class CuttingCounter : BaseCounter, IHasProgress
     private int cuttingProgress;
 
     // Events
-    public Action OnCut;
+    public event Action OnCut;
+    public static event Action<CuttingCounter> OnAnyCut; // If multiple counters, on any that is cutting
 
     public event Action<float> OnProgressChanged;
 
@@ -56,6 +57,8 @@ public class CuttingCounter : BaseCounter, IHasProgress
             KitchenObjectSO objectSO = GetKitchenObject().GetKitchenObjectSO();
             cuttingProgress++;
             OnCut?.Invoke();
+            OnAnyCut?.Invoke(this);
+
             // If there's a recipe with max progress, update UI bar
             int maxProgress = GetMaxProgressFromRecipe(objectSO);
             if (maxProgress > 0)

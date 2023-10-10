@@ -9,6 +9,9 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
 
     private KitchenObject kitchenObject;
 
+    // Events
+    public static event Action<BaseCounter> OnAnyObjectPlacedHere;
+
     public virtual void Interact(Player player)
     {
         Debug.LogError("Interact from Base Class shouldn't run");
@@ -28,6 +31,10 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
     public void SetKitchenObject(KitchenObject obj)
     {
         kitchenObject = obj;
+        if (kitchenObject != null)
+        {
+            OnAnyObjectPlacedHere?.Invoke(this);
+        }
     }
 
     public KitchenObject GetKitchenObject()
