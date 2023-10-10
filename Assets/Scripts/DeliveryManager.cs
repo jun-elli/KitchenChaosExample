@@ -13,6 +13,7 @@ public class DeliveryManager : MonoBehaviour
     private float spawnRecipeTimer;
     private const float SPAWN_DELAY = 5F;
     private const int MAX_WAITING_RECIPES = 4;
+    public int SuccessfullyDeliveredRecipesAmount { get; private set; }
 
     // Events
     public event Action OnRecipeSpawned;
@@ -31,7 +32,7 @@ public class DeliveryManager : MonoBehaviour
             _waitingRecipeSOList = new List<RecipeSO>();
 
         }
-
+        SuccessfullyDeliveredRecipesAmount = 0;
     }
 
     private void Update()
@@ -88,6 +89,7 @@ public class DeliveryManager : MonoBehaviour
                     // Recipe fulfilled
                     Debug.Log("Fullfilled recipe: " + _waitingRecipeSOList[i].recipeName);
                     _waitingRecipeSOList.RemoveAt(i);
+                    SuccessfullyDeliveredRecipesAmount++;
                     // Event
                     OnRecipeDelivered?.Invoke();
                     return true;

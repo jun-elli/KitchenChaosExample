@@ -93,4 +93,9 @@ public class GameManager : MonoBehaviour
     {
         return _countdownToStartTimer;
     }
+
+    public float GetGamePlayingTimerNormalized()
+    {
+        return 1 - (gamePlayingTimer / PLAYING_TIME_MAX);
+    }
 }
