@@ -44,7 +44,6 @@ public class GameStartCountdownUI : MonoBehaviour
         while (currentTime > 0)
         {
             currentTime = Mathf.Ceil(GameManager.Instance.GetCountdownToStartTimer());
-            Debug.Log(currentTime);
             countdownText.text = currentTime.ToString();
             yield return new WaitForSeconds(0.3f);
         }

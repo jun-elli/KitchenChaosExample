@@ -30,11 +30,9 @@ public class GamePlayingClockUI : MonoBehaviour
     private IEnumerator UpdateGamePlayingTimerVisual()
     {
         float currentPlayingTimer = GameManager.Instance.GetGamePlayingTimerNormalized();
-        Debug.Log(currentPlayingTimer);
         while (currentPlayingTimer < 1)
         {
             currentPlayingTimer = GameManager.Instance.GetGamePlayingTimerNormalized();
-            Debug.Log(currentPlayingTimer);
             timerImage.fillAmount = currentPlayingTimer;
             yield return null;
         }

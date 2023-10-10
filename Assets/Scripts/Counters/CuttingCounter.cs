@@ -11,10 +11,12 @@ public class CuttingCounter : BaseCounter, IHasProgress
 
     // Events
     public event Action OnCut;
-    public static event Action<CuttingCounter> OnAnyCut; // If multiple counters, on any that is cutting
-
     public event Action<float> OnProgressChanged;
-
+    public static event Action<CuttingCounter> OnAnyCut; // If multiple counters, on any that is cutting
+    public static new void ResetStaticData()
+    {
+        OnAnyCut = null;
+    }
 
     // Methods
     public override void Interact(Player player)

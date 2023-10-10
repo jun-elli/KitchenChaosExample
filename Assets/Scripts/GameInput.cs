@@ -10,6 +10,7 @@ public class GameInput : MonoBehaviour
 
     public event EventHandler OnInteractAction;
     public event EventHandler OnInteractAlternateAction;
+    public event Action OnPauseAction;
 
     private PlayerInputActions playerInputActions;
 
@@ -23,7 +24,6 @@ public class GameInput : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
 
         // Activate input actions
@@ -32,7 +32,22 @@ public class GameInput : MonoBehaviour
         // Add method to be called when E is pressed
         playerInputActions.Player.Interact.performed += Interact_Performed;
         playerInputActions.Player.InteractAlternate.performed += InteractAlternate_Performed;
+        playerInputActions.Player.Pause.performed += Pause_Performed;
 
+    }
+
+    private void OnDestroy()
+    {
+        playerInputActions.Player.Interact.performed -= Interact_Performed;
+        playerInputActions.Player.InteractAlternate.performed -= InteractAlternate_Performed;
+        playerInputActions.Player.Pause.performed -= Pause_Performed;
+
+        playerInputActions.Dispose();
+    }
+
+    private void Pause_Performed(InputAction.CallbackContext context)
+    {
+        OnPauseAction?.Invoke();
     }
 
     private void InteractAlternate_Performed(InputAction.CallbackContext context)

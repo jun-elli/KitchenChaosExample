@@ -26,9 +26,11 @@ public class GameManager : MonoBehaviour
     private const float PLAYING_TIME_MAX = 10f;
 
     public bool IsGamePlaying => state == GameState.GamePlaying;
+    public bool IsGamePaused { get; private set; }
 
     // Events
     public event Action<GameState> OnGameStateChanged;
+    public event Action<bool> OnGamePauseToggled;
 
 
     private void Awake()
@@ -46,6 +48,16 @@ public class GameManager : MonoBehaviour
         waitingToStartTimer = WAITING_TO_START_DELAY;
         _countdownToStartTimer = COUNTDOWN_TIME_MAX;
         gamePlayingTimer = PLAYING_TIME_MAX;
+    }
+
+    private void Start()
+    {
+        GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
+    }
+
+    private void GameInput_OnPauseAction()
+    {
+        TogglePauseGame();
     }
 
     private void Update()
@@ -97,5 +109,19 @@ public class GameManager : MonoBehaviour
     public float GetGamePlayingTimerNormalized()
     {
         return 1 - (gamePlayingTimer / PLAYING_TIME_MAX);
+    }
+
+    public void TogglePauseGame()
+    {
+        if (IsGamePaused)
+        {
+            Time.timeScale = 1f;
+        }
+        else
+        {
+            Time.timeScale = 0f;
+        }
+        IsGamePaused = !IsGamePaused;
+        OnGamePauseToggled?.Invoke(IsGamePaused);
     }
 }

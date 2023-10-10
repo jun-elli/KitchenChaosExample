@@ -11,6 +11,10 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
 
     // Events
     public static event Action<BaseCounter> OnAnyObjectPlacedHere;
+    public static void ResetStaticData()
+    {
+        OnAnyObjectPlacedHere = null;
+    }
 
     public virtual void Interact(Player player)
     {

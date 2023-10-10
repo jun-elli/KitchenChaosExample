@@ -52,7 +52,6 @@ public class DeliveryManager : MonoBehaviour
             {
                 int randomIndex = UnityEngine.Random.Range(0, recipeList.recipeSOList.Count);
                 RecipeSO waitingRecipe = recipeList.recipeSOList[randomIndex];
-                Debug.Log("Waiting recipe: " + waitingRecipe.recipeName);
                 _waitingRecipeSOList.Add(waitingRecipe);
                 // Event
                 OnRecipeSpawned?.Invoke();
@@ -87,7 +86,6 @@ public class DeliveryManager : MonoBehaviour
                 if (sameIngredients == recipeIngredients.Count)
                 {
                     // Recipe fulfilled
-                    Debug.Log("Fullfilled recipe: " + _waitingRecipeSOList[i].recipeName);
                     _waitingRecipeSOList.RemoveAt(i);
                     SuccessfullyDeliveredRecipesAmount++;
                     // Event
