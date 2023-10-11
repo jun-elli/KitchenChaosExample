@@ -13,6 +13,10 @@ public class SoundManager : MonoBehaviour
     // Positions
     [SerializeField] private Transform deliveryCounter;
 
+    public float Volume { get; private set; }
+
+    private const string PLAYER_PREFS_SFX_VOLUME = "SfxVolume";
+
     private void Awake()
     {
         if (Instance != null)
@@ -23,6 +27,7 @@ public class SoundManager : MonoBehaviour
         {
             Instance = this;
         }
+        Volume = PlayerPrefs.GetFloat(PLAYER_PREFS_SFX_VOLUME, 1f);
     }
 
     private void Start()
@@ -65,18 +70,29 @@ public class SoundManager : MonoBehaviour
         PlaySound(clipRefsSO.deliveryFail, deliveryCounter.position);
     }
 
-    private void PlaySound(AudioClip[] clipArray, Vector3 position, float volume = 1f)
+    private void PlaySound(AudioClip[] clipArray, Vector3 position, float volumeMultiplier = 1f)
     {
-        AudioSource.PlayClipAtPoint(clipArray[UnityEngine.Random.Range(0, clipArray.Length)], position, volume);
+        AudioSource.PlayClipAtPoint(clipArray[UnityEngine.Random.Range(0, clipArray.Length)], position, volumeMultiplier * Volume);
     }
 
-    private void PlaySound(AudioClip clip, Vector3 position, float volume = 1f)
+    private void PlaySound(AudioClip clip, Vector3 position, float volumeMultiplier = 1f)
     {
-        AudioSource.PlayClipAtPoint(clip, position, volume);
+        AudioSource.PlayClipAtPoint(clip, position, volumeMultiplier * Volume);
     }
 
-    public void PlayFootstepsSound(Vector3 position, float volume = 1f)
+    public void PlayFootstepsSound(Vector3 position, float volumeMultiplier = 1f)
     {
-        PlaySound(clipRefsSO.footstep, position, volume);
+        PlaySound(clipRefsSO.footstep, position, volumeMultiplier * Volume);
+    }
+
+    public void ChangeVolume()
+    {
+        Volume += 0.1f;
+        if (Volume > 1.09f)
+        {
+            Volume = 0f;
+        }
+        PlayerPrefs.SetFloat(PLAYER_PREFS_SFX_VOLUME, Volume);
+        PlayerPrefs.Save();
     }
 }
