@@ -32,6 +32,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private const float PLAYER_HEIGHT = 2f;
     private const float PLAYER_RADIUS = 0.7f;
     private const float INTERACT_DISTANCE = 2f;
+    private const float MIN_INPUT_TO_ALLOW_MOVEMENT = 0.5f;
 
     private void Awake()
     {
@@ -104,7 +105,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         {
             // Check if we can move on the x
             Vector3 moveDirectionX = new Vector3(moveDirection.x, 0, 0).normalized;
-            bool canMoveX = moveDirection.x != 0 && !Physics.CapsuleCast(bottomPoint, topPoint, PLAYER_RADIUS, moveDirectionX, moveDistance);
+            bool canMoveX = (moveDirection.x < -MIN_INPUT_TO_ALLOW_MOVEMENT || moveDirection.x > MIN_INPUT_TO_ALLOW_MOVEMENT) && !Physics.CapsuleCast(bottomPoint, topPoint, PLAYER_RADIUS, moveDirectionX, moveDistance);
 
             if (canMoveX)
             {
@@ -115,7 +116,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             {
                 // Check if we can move on the z
                 Vector3 moveDirectionZ = new Vector3(0, 0, moveDirection.z).normalized;
-                bool canMoveZ = moveDirection.z != 0 && !Physics.CapsuleCast(bottomPoint, topPoint, PLAYER_RADIUS, moveDirectionZ, moveDistance);
+                bool canMoveZ = (moveDirection.z < -MIN_INPUT_TO_ALLOW_MOVEMENT || moveDirection.z > MIN_INPUT_TO_ALLOW_MOVEMENT) && !Physics.CapsuleCast(bottomPoint, topPoint, PLAYER_RADIUS, moveDirectionZ, moveDistance);
 
                 if (canMoveZ)
                 {

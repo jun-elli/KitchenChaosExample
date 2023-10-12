@@ -25,7 +25,12 @@ public class GameOptionsUI : MonoBehaviour
     [SerializeField] private Button interactButton;
     [SerializeField] private Button interactAlternateButton;
     [SerializeField] private Button pauseButton;
+    [SerializeField] private Button gamepadInteractButton;
+    [SerializeField] private Button gamepadInteractAlternateButton;
+    [SerializeField] private Button gamepadPauseButton;
     [SerializeField] private Transform pressToRebindScreen;
+
+    private Action onCloseButtonAction;
 
     private void Awake()
     {
@@ -51,6 +56,7 @@ public class GameOptionsUI : MonoBehaviour
         closeButton.onClick.AddListener(() =>
         {
             Hide();
+            onCloseButtonAction();
         });
         // Rebinding
         moveUpButton.onClick.AddListener(() => { HandleRebindBinding(GameInput.Binding.MoveUp); });
@@ -60,6 +66,10 @@ public class GameOptionsUI : MonoBehaviour
         interactButton.onClick.AddListener(() => { HandleRebindBinding(GameInput.Binding.Interact); });
         interactAlternateButton.onClick.AddListener(() => { HandleRebindBinding(GameInput.Binding.InteractAlternate); });
         pauseButton.onClick.AddListener(() => { HandleRebindBinding(GameInput.Binding.Pause); });
+        gamepadInteractButton.onClick.AddListener(() => { HandleRebindBinding(GameInput.Binding.Gamepad_Interact); });
+        gamepadInteractAlternateButton.onClick.AddListener(() => { HandleRebindBinding(GameInput.Binding.Gamepad_InteractAlternate); });
+        gamepadPauseButton.onClick.AddListener(() => { HandleRebindBinding(GameInput.Binding.Gamepad_Pause); });
+
     }
 
     private void Start()
@@ -99,11 +109,18 @@ public class GameOptionsUI : MonoBehaviour
         interactButton.GetComponentInChildren<TextMeshProUGUI>().text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact);
         interactAlternateButton.GetComponentInChildren<TextMeshProUGUI>().text = GameInput.Instance.GetBindingText(GameInput.Binding.InteractAlternate);
         pauseButton.GetComponentInChildren<TextMeshProUGUI>().text = GameInput.Instance.GetBindingText(GameInput.Binding.Pause);
+        gamepadInteractButton.GetComponentInChildren<TextMeshProUGUI>().text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Interact);
+        gamepadInteractAlternateButton.GetComponentInChildren<TextMeshProUGUI>().text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_InteractAlternate);
+        gamepadPauseButton.GetComponentInChildren<TextMeshProUGUI>().text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Pause);
+
     }
 
-    public void Show()
+    public void Show(Action onClosingOptionsUI)
     {
         gameObject.SetActive(true);
+
+        sfxButton.Select();
+        onCloseButtonAction = onClosingOptionsUI;
     }
 
     private void Hide()

@@ -20,5 +20,6 @@ public class MainTitleUI : MonoBehaviour
         {
             Application.Quit();
         });
+        playButton.Select();
     }
 }
