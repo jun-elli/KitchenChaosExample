@@ -12,6 +12,7 @@ public class GameInput : MonoBehaviour
     public event EventHandler OnInteractAction;
     public event EventHandler OnInteractAlternateAction;
     public event Action OnPauseAction;
+    public event Action OnBindingRebind;
 
     private PlayerInputActions playerInputActions;
 
@@ -182,6 +183,8 @@ public class GameInput : MonoBehaviour
                 // Save bindings
                 PlayerPrefs.SetString(PLAYER_PREFS_INPUT_BINDINGS, playerInputActions.SaveBindingOverridesAsJson());
                 PlayerPrefs.Save();
+
+                OnBindingRebind?.Invoke();
             }).Start();
     }
 }

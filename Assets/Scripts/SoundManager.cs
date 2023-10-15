@@ -32,7 +32,7 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        DeliveryManager.Instance.OnRecipeDelivered += DeliveryManager_OnRecipeDelivered;
+        DeliveryManager.Instance.OnRightRecipeDelivered += DeliveryManager_OnRecipeDelivered;
         DeliveryManager.Instance.OnWrongRecipeDelivered += DeliveryManager_OnWrongRecipeDelivered;
         CuttingCounter.OnAnyCut += CuttingCounter_OnAnyCut;
         Player.Instance.OnPickUpSomething += Player_OnPickUpSomething;
@@ -83,6 +83,16 @@ public class SoundManager : MonoBehaviour
     public void PlayFootstepsSound(Vector3 position, float volumeMultiplier = 1f)
     {
         PlaySound(clipRefsSO.footstep, position, volumeMultiplier * Volume);
+    }
+
+    public void PlayCountdownSound()
+    {
+        PlaySound(clipRefsSO.warning, Vector3.zero);
+    }
+
+    public void PlayWarningSound(Vector3 position)
+    {
+        PlaySound(clipRefsSO.warning, position);
     }
 
     public void ChangeVolume()

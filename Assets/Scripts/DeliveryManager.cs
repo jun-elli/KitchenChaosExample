@@ -17,7 +17,7 @@ public class DeliveryManager : MonoBehaviour
 
     // Events
     public event Action OnRecipeSpawned;
-    public event Action OnRecipeDelivered;
+    public event Action OnRightRecipeDelivered;
     public event Action OnWrongRecipeDelivered;
 
     private void Awake()
@@ -48,7 +48,7 @@ public class DeliveryManager : MonoBehaviour
         {
             spawnRecipeTimer = SPAWN_DELAY;
 
-            if (_waitingRecipeSOList.Count < MAX_WAITING_RECIPES)
+            if (GameManager.Instance.IsGamePlaying && _waitingRecipeSOList.Count < MAX_WAITING_RECIPES)
             {
                 int randomIndex = UnityEngine.Random.Range(0, recipeList.recipeSOList.Count);
                 RecipeSO waitingRecipe = recipeList.recipeSOList[randomIndex];
@@ -89,7 +89,7 @@ public class DeliveryManager : MonoBehaviour
                     _waitingRecipeSOList.RemoveAt(i);
                     SuccessfullyDeliveredRecipesAmount++;
                     // Event
-                    OnRecipeDelivered?.Invoke();
+                    OnRightRecipeDelivered?.Invoke();
                     return true;
                 }
 

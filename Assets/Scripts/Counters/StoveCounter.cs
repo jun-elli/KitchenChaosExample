@@ -21,8 +21,10 @@ public class StoveCounter : BaseCounter, IHasProgress
     private FryingRecipeSO currentRecipe;
     private StoveState state;
 
+    public bool HasFriedState => state == StoveState.Fried;
+
     // Events
-    public Action<StoveState> OnStateChanged;
+    public event Action<StoveState> OnStateChanged;
     public event Action<float> OnProgressChanged;
 
 
