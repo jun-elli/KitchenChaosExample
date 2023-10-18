@@ -12,9 +12,11 @@ public class TeleportTile : MonoBehaviour
 
     // Events
     public static event Action<float> OnPlayerTeleported;
+    public static event Action<TeleportTile> OnTeleportActivated;
     public static void ResetStaticData()
     {
         OnPlayerTeleported = null;
+        OnTeleportActivated = null;
     }
     public event Action OnPlayerEnterTile;
 
@@ -28,6 +30,7 @@ public class TeleportTile : MonoBehaviour
             {
                 player.LockMovementForSeconds(MOVEMENT_DELAY_AFTER_TELEPORT);
                 OnPlayerEnterTile?.Invoke();
+                OnTeleportActivated?.Invoke(this);
                 OnPlayerTeleported?.Invoke(MOVEMENT_DELAY_AFTER_TELEPORT);
                 player.transform.position = destinationTile.transform.position;
             }
