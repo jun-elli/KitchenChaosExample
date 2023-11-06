@@ -199,6 +199,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         {
             selectedCounter = _selectedCounter
         });
+
     }
 
     public Transform GetParentHoldingPoint()

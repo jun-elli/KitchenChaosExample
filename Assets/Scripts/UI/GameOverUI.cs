@@ -2,10 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameOverUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI recipesDeliveredCountText;
+    [SerializeField] private Button returnButton;
+
+    private void Awake()
+    {
+        returnButton.onClick.AddListener(() =>
+        {
+            Loader.Load(Loader.Scene.MainTitleScene);
+        });
+    }
 
     private void Start()
     {
