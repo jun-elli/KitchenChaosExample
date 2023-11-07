@@ -15,6 +15,7 @@ public class GameOverUI : MonoBehaviour
         {
             Loader.Load(Loader.Scene.MainTitleScene);
         });
+
     }
 
     private void Start()
@@ -40,6 +41,7 @@ public class GameOverUI : MonoBehaviour
     private void Show()
     {
         gameObject.SetActive(true);
+        returnButton.Select();
     }
 
     private void Hide()

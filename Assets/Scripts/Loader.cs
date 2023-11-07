@@ -9,7 +9,8 @@ public static class Loader
     {
         MainTitleScene,
         GameScene,
-        LoadingScene
+        LoadingScene,
+        TeleportTilesScene
     }
     public static Scene targetScene;
 
