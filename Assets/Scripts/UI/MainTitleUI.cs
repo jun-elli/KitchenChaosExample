@@ -8,6 +8,8 @@ public class MainTitleUI : MonoBehaviour
 {
     [SerializeField] private Button playButton;
     [SerializeField] private Button quitButton;
+    [SerializeField] private Button extrasButton;
+    [SerializeField] private ExtrasUI extrasUI;
 
 
     private void Awake()
@@ -20,6 +22,12 @@ public class MainTitleUI : MonoBehaviour
         {
             Application.Quit();
         });
+        extrasButton.onClick.AddListener(() =>
+        {
+            extrasUI.Show();
+        });
+
+
         playButton.Select();
     }
 }

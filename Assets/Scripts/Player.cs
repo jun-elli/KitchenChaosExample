@@ -20,6 +20,8 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     [SerializeField] private float _speedMultiplier = 7f;
     [SerializeField] private LayerMask _countersLayerMask;
     public bool IsWalking { get; private set; }
+    private bool isMovementLocked;
+    private float movementLockedTimer;
 
     private Vector3 _lastInteractDirection;
     private BaseCounter _selectedCounter;
@@ -88,6 +90,14 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         // Player is Idle
         IsWalking = false;
 
+        // Check if movement is locked and wait
+        if (movementLockedTimer > 0)
+        {
+            movementLockedTimer -= Time.deltaTime;
+            return;
+        }
+        isMovementLocked = false;
+
         // Get input and vector to move
         Vector2 inputVector = GameInput.Instance.GetMovementVectorNormalized();
         Vector3 moveDirection = new(inputVector.x, 0f, inputVector.y);
@@ -98,7 +108,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         // Max distance it wants to move
         float moveDistance = _speedMultiplier * Time.deltaTime;
 
-        bool canMove = !Physics.CapsuleCast(bottomPoint, topPoint, PLAYER_RADIUS, moveDirection, moveDistance);
+        bool canMove = !Physics.CapsuleCast(bottomPoint, topPoint, PLAYER_RADIUS, moveDirection, moveDistance, _countersLayerMask);
         bool wantsToMove = inputVector != Vector2.zero;
 
         if (!canMove)
@@ -189,6 +199,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         {
             selectedCounter = _selectedCounter
         });
+
     }
 
     public Transform GetParentHoldingPoint()
@@ -218,5 +229,11 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     public bool HasKitchenObject()
     {
         return kitchenObject != null;
+    }
+
+    public void LockMovementForSeconds(float seconds)
+    {
+        isMovementLocked = true;
+        movementLockedTimer = seconds;
     }
 }

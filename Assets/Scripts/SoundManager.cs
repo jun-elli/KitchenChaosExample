@@ -38,6 +38,12 @@ public class SoundManager : MonoBehaviour
         Player.Instance.OnPickUpSomething += Player_OnPickUpSomething;
         BaseCounter.OnAnyObjectPlacedHere += BaseCounter_OnAnyObjectPlacedHere;
         TrashCounter.OnAnyObjectTrashed += TrashCounter_OnAnyObjectTrashed;
+        TeleportTile.OnTeleportActivated += TeleportTile_OnTeleportActivated;
+    }
+
+    private void TeleportTile_OnTeleportActivated(TeleportTile tile)
+    {
+        PlaySound(clipRefsSO.teleport, tile.transform.position);
     }
 
     private void TrashCounter_OnAnyObjectTrashed(TrashCounter counter)

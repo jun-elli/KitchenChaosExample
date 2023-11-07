@@ -23,6 +23,7 @@ public class SelectedCounterVisual : MonoBehaviour
         {
             Hide();
         }
+
     }
 
     private void Show()
