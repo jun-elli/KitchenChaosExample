@@ -1,4 +1,4 @@
-# KitchenChaosExample v1.0
+# KitchenChaosExample v1.1
 Cooking game made with Unity and following Code Monkey's tutorial. 
 
 Cooking simulator where you'll have to fulfill as much orders as you possibly can within 60 seconds.
